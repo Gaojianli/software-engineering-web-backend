@@ -9,7 +9,7 @@ test:
     - dotnet test web-backend.sln
     
 build:
-  image: mcr.azk8s.cn/dotnet/core/sdk:3.
+  image: mcr.azk8s.cn/dotnet/core/sdk:3.1
   stage: build
   before_script:
     - dotnet restore
