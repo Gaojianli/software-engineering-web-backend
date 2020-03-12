@@ -1,0 +1,17 @@
+# Web-backend
+
+## Fetch Deps
+
+```
+dotnet restore
+```
+
+## Build
+```
+dotnet build
+```
+
+## Run Test
+```
+dotnet test
+```
