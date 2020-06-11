@@ -14,13 +14,16 @@ namespace web_backend
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            var hostBuilder = Host.CreateDefaultBuilder(args);
+            return hostBuilder.ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+        }
     }
 }
