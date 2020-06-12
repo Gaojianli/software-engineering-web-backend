@@ -17,15 +17,15 @@ CREATE DATABASE IF NOT EXISTS `acctrl` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `acctrl`;
 
 -- 导出  表 acctrl.order 结构
-CREATE TABLE IF NOT EXISTS `order` (
+CREATE TABLE `order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `roomID` int(10) unsigned NOT NULL,
   `checkInTime` datetime DEFAULT current_timestamp(),
   `checkOutTime` datetime DEFAULT NULL,
   `fee` double unsigned zerofill NOT NULL DEFAULT 0000000000000000000000,
+  `finished` tinyint(1) NOT NULL DEFAULT 0,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8
 -- 数据导出被取消选择。
 
 -- 导出  表 acctrl.user 结构
