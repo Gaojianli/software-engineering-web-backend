@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using web_backend.DataRepo;
 using web_backend.Models;
@@ -50,11 +51,14 @@ namespace web_backend.Controllers
                     });
                 }
                 else
+                {
+                    HttpContext.Session.SetInt32("UserId", result.id);
                     return new JsonResult(new
                     {
                         code = 200,
                         data = result
                     });
+                }
             }
             else
             {
