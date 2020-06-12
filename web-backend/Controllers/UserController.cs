@@ -40,7 +40,7 @@ namespace web_backend.Controllers
 
             if (body.ContainsKey("username") && body.ContainsKey("password"))
             {
-                var userRepo = UserRepo.getInstance(dbContext);
+                var userRepo = UserRepo.getInstance<UserRepo>(dbContext);
                 var result = userRepo.Login(body["username"], body["password"]);
                 if (result == null)
                 {
@@ -52,7 +52,7 @@ namespace web_backend.Controllers
                 }
                 else
                 {
-                    HttpContext.Session.SetInt32("UserId", result.id);
+                    //HttpContext.Session.SetInt32("UserId", result.id);
                     return new JsonResult(new
                     {
                         code = 200,
@@ -78,7 +78,7 @@ namespace web_backend.Controllers
             var body = Request.Form;
             if (body.ContainsKey("username") && body.ContainsKey("password"))
             {
-                var userRepo = UserRepo.getInstance(dbContext);
+                var userRepo = baseRepo.getInstance<UserRepo>(dbContext);
                 var username = body["username"].ToString();
                 var password = body["password"].ToString();
                 if (username.Length >= 20 || password.Length >= 30)

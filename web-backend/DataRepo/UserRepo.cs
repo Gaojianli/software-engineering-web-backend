@@ -11,20 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace web_backend.DataRepo
 {
-    public class UserRepo
+    public class UserRepo:baseRepo
     {
-        static private UserRepo _instance;
-        private CoreDbContext dbContext;
-
-        private UserRepo(CoreDbContext CoredbContext) => dbContext = CoredbContext;
-        static public UserRepo getInstance(CoreDbContext CoredbContext)
-        {
-            if (_instance == null)
-                _instance = new UserRepo(CoredbContext);
-            else
-                _instance.dbContext = CoredbContext;
-            return _instance;
-        }
         public User Login(string username,string password)
         {  
             var toReturn = from User in dbContext.User
@@ -44,8 +32,16 @@ namespace web_backend.DataRepo
                 name = username,
                 password = password
             };
-            dbContext.User.Add(newUser);
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                dbContext.User.Add(newUser);
+                await dbContext.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
             return await dbContext.User.FindAsync(newUser.id);
         }
     }
