@@ -28,6 +28,12 @@ namespace web_backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            //services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromSeconds(600);
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.IsEssential = true;
+            //});
             services.AddDbContext<CoreDbContext>(
                 options =>options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"))
             );
@@ -44,6 +50,8 @@ namespace web_backend
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

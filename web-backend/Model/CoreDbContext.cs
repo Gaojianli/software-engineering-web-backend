@@ -13,6 +13,7 @@ namespace web_backend.Models
     {
         public string ConnectionString;
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
         public CoreDbContext(DbContextOptions options):base(options)
         {
         }
