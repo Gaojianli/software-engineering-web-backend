@@ -14,6 +14,6 @@ namespace web_backend.Model
         public DateTime checkOutTime { get; set; }
         public double fee { get; set; }
 
-
+        public bool finished { get; set; }
     }
 }
