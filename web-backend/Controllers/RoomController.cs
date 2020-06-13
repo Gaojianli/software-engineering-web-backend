@@ -98,7 +98,7 @@ namespace web_backend.Controllers
                     if (form.ContainsKey("mode"))
                         mode = (ControllRequest.MODE)Convert.ToInt32(form["mode"]);
                     
-                    if(DispatcherService.airAvaiable(id, status, fanSpeed))
+                    if(await DispatcherService.airAvaiableAsync(id, status, fanSpeed))
                     {
                         await ACServices.changeStatusAsync(id, status, mode, targetTemp, fanSpeed, nowTemp, dbContext);
                         return Ok(new
