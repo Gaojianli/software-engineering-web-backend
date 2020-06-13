@@ -26,23 +26,17 @@ CREATE TABLE IF NOT EXISTS `controllrequest` (
   `fanSpeed` int(11) DEFAULT NULL,
   `nowTemp` int(11) DEFAULT NULL,
   `time` datetime NOT NULL DEFAULT current_timestamp(),
+  `orderId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `roomID` (`roomID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
--- 正在导出表  acctrl.controllrequest 的数据：~8 rows (大约)
+-- 正在导出表  acctrl.controllrequest 的数据：~0 rows (大约)
 DELETE FROM `controllrequest`;
 /*!40000 ALTER TABLE `controllrequest` DISABLE KEYS */;
-INSERT INTO `controllrequest` (`id`, `roomID`, `status`, `mode`, `targetTemp`, `fanSpeed`, `nowTemp`, `time`) VALUES
-	(3, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:19:07'),
-	(4, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:23:35'),
-	(5, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:24:20'),
-	(6, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:26:36'),
-	(7, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:28:14'),
-	(8, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:28:43'),
-	(9, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:31:43'),
-	(10, 5, 1, 1, 27, 2000, 25, '2020-06-13 11:35:28');
+INSERT INTO `controllrequest` (`id`, `roomID`, `status`, `mode`, `targetTemp`, `fanSpeed`, `nowTemp`, `time`, `orderId`) VALUES
+	(13, 5, 1, 1, 27, 2000, 25, '2020-06-13 13:30:26', 6);
 /*!40000 ALTER TABLE `controllrequest` ENABLE KEYS */;
 
 -- 导出  表 acctrl.order 结构
@@ -55,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   `finished` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  acctrl.order 的数据：~4 rows (大约)
 DELETE FROM `order`;
@@ -64,7 +58,8 @@ INSERT INTO `order` (`id`, `roomID`, `checkInTime`, `checkOutTime`, `fee`, `fini
 	(2, 5, '2020-06-12 20:20:06', '2020-06-12 21:10:45', 0000000000000000000000, 1),
 	(3, 5, '2020-06-12 21:15:44', '2020-06-12 21:15:55', 0000000000000000000000, 1),
 	(4, 5, '2020-06-12 21:16:09', '2020-06-12 21:16:12', 0000000000000000000000, 1),
-	(5, 5, '2020-06-12 21:16:18', '0001-01-01 00:00:00', 0000000000000000000000, 0);
+	(5, 5, '2020-06-12 21:16:18', '2020-06-13 13:30:05', 0000000000000000000000, 1),
+	(6, 5, '2020-06-13 13:30:08', '0001-01-01 00:00:00', 0000000000000000000000, 0);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 
 -- 导出  表 acctrl.room 结构
@@ -73,25 +68,23 @@ CREATE TABLE IF NOT EXISTS `room` (
   `orderID` int(11) DEFAULT 0,
   `latestRequest` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `id` (`id`),
-  KEY `FK__controllrequest` (`latestRequest`),
-  CONSTRAINT `FK__controllrequest` FOREIGN KEY (`latestRequest`) REFERENCES `controllrequest` (`id`) ON DELETE SET NULL
+  KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  acctrl.room 的数据：~10 rows (大约)
 DELETE FROM `room`;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
 INSERT INTO `room` (`id`, `orderID`, `latestRequest`) VALUES
-	(1, 0, NULL),
-	(2, 0, NULL),
-	(3, 0, NULL),
-	(4, 0, NULL),
-	(5, 0, 10),
-	(6, 0, NULL),
-	(7, 0, NULL),
-	(8, 0, NULL),
-	(9, 0, NULL),
-	(10, 0, NULL);
+	(1, 0, 0),
+	(2, 0, 0),
+	(3, 0, 0),
+	(4, 0, 0),
+	(5, 6, 13),
+	(6, 0, 0),
+	(7, 0, 0),
+	(8, 0, 0),
+	(9, 0, 0),
+	(10, 0, 0);
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 
 -- 导出  表 acctrl.user 结构

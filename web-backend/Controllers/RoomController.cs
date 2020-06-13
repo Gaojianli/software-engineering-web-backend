@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using web_backend.DataRepo;
 using web_backend.Model;
 using web_backend.Models;
 using web_backend.Service;
@@ -66,6 +67,15 @@ namespace web_backend.Controllers
         public async Task<IActionResult> controllAC(int id,[FromServices] CoreDbContext dbContext)
         {
             var form = HttpContext.Request.Form;
+            if (OrderRepo.getInstance(dbContext).getUnfinised(id) == null)
+            {
+                Response.StatusCode = 406;
+                return new JsonResult(new
+                {
+                    code = 406,
+                    msg = "Not checked in."
+                });
+            }
             if (form.ContainsKey("status"))
             {
                 try
@@ -115,6 +125,13 @@ namespace web_backend.Controllers
         public async Task<IActionResult> getACInfo(int id,[FromServices] CoreDbContext dbContext)
         {
             return Ok(await ACServices.getLatestRequest(id, dbContext));
+        }
+
+        [HttpGet("{id}/ac/export")]
+        public async Task<IActionResult> exportLogs(int id,[FromServices] CoreDbContext dbContext)
+        {
+            // csv later..
+            return new JsonResult(await ACServices.getControllRequest(id, dbContext));
         }
     }
 }
