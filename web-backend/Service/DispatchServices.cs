@@ -51,31 +51,35 @@ namespace web_backend.Service
             }
 
         }
-        public static async Task<bool> airAvaiable(int roomID, bool curStatus,int? speed)
+        public static bool airAvaiable(int roomID, bool curStatus, int? speed)
         {
-            if(curStatus == false){
+            if (curStatus == false)
+            {
                 status[roomID] = 0;
                 return true;
             }
-            if(status[roomID] != 0) return true; //此空调正在运行
-            
+            if (status[roomID] != 0) return true; //此空调正在运行
+
             int cur = countSpeed(HIGH);
-            if(cur >= AIRLIMIT) return false; //high = AIRLIMIT
-            if(speed == HIGH) { // not full, turn off middle or low one
+            if (cur >= AIRLIMIT) return false; //high = AIRLIMIT
+            if (speed == HIGH)
+            { // not full, turn off middle or low one
                 turnoff(HIGH);
                 status[roomID] = HIGH;
                 return true;
             }
-            if(speed == MIDDLE) {
+            if (speed == MIDDLE)
+            {
                 cur += countSpeed(MIDDLE);
-                if(cur >= AIRLIMIT) return false; //high + middle = AIRLIMIT
+                if (cur >= AIRLIMIT) return false; //high + middle = AIRLIMIT
                 turnoff(MIDDLE); // not full, turn off lower one
                 status[roomID] = MIDDLE;
                 return true;
             }
             // speed == LOW
             cur += countSpeed(LOW);
-            if(cur < AIRLIMIT) {
+            if (cur < AIRLIMIT)
+            {
                 status[roomID] = LOW;
                 return true;
             }

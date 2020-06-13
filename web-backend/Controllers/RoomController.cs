@@ -98,7 +98,7 @@ namespace web_backend.Controllers
                     if (form.ContainsKey("mode"))
                         mode = (ControllRequest.MODE)Convert.ToInt32(form["mode"]);
                     
-                    if(await DispatcherService.airAvaiable(id, status, fanSpeed))
+                    if(DispatcherService.airAvaiable(id, status, fanSpeed))
                     {
                         await ACServices.changeStatusAsync(id, status, mode, targetTemp, fanSpeed, nowTemp, dbContext);
                         return Ok(new
@@ -107,9 +107,10 @@ namespace web_backend.Controllers
                             msg = "Accepted."
                         });                        
                     } else {
+                        Response.StatusCode = 503;
                         return new JsonResult(new
                         {
-                            code = 403,
+                            code = 503,
                             msg = "Plz wait. You are the next one."
                         });
                     }
