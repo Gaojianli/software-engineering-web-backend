@@ -9,9 +9,15 @@ test:
     - dotnet test web-backend.sln
     
 build:
-  image: registry.cn-hangzhou.aliyuncs.com/shinetechchina/dotnet_core_sdk:3.1
-  stage: build
+  image: docker:stable
+  services:
+     - docker:dind
+  
   before_script:
-    - dotnet restore
+    - docker login --username=${REGISTER_NAME} registry.cn-hangzhou.aliyuncs.com --password ${REGISTER_PASSWORD}
+  only:
+    - master
+  stage: build
   script:
-    - dotnet publish -c release
+    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest .
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
