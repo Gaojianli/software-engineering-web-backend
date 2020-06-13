@@ -14,5 +14,7 @@ namespace web_backend.DataRepo
             await dbContext.SaveChangesAsync();
             return await dbContext.ControllRequest.FindAsync(toAdd.id);
         }
+
+        public async Task<ControllRequest> findByID(int id) => await dbContext.ControllRequest.FindAsync(id);
     }
 }

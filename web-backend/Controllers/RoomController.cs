@@ -63,7 +63,7 @@ namespace web_backend.Controllers
         }
 
         [HttpPost("{id}/ac")]
-        public async Task<IActionResult> ControllerAC(int id,[FromServices] CoreDbContext dbContext)
+        public async Task<IActionResult> controllAC(int id,[FromServices] CoreDbContext dbContext)
         {
             var form = HttpContext.Request.Form;
             if (form.ContainsKey("status"))
@@ -109,6 +109,12 @@ namespace web_backend.Controllers
                     msg = "Not Acceptable"
                 });
             }
+        }
+
+        [HttpGet("{id}/ac")]
+        public async Task<IActionResult> getACInfo(int id,[FromServices] CoreDbContext dbContext)
+        {
+            return Ok(await ACServices.getLatestRequest(id, dbContext));
         }
     }
 }

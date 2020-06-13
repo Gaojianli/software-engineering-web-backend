@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +14,6 @@ namespace web_backend.DataRepo
             return 0 < await dbContext.SaveChangesAsync();
         }
 
-        public async Task<Room> findById(int id) => await (from r in dbContext.Room where r.id == id select r).FirstOrDefaultAsync() ;
+        public async Task<Room> findById(int id) => await dbContext.Room.FindAsync(id);
     }
 }

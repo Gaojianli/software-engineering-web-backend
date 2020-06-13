@@ -29,5 +29,11 @@ namespace web_backend.Service
             room.latestRequest = result.id;
             await roomRepo.Update(room);
         }
+
+        public static async Task<ControllRequest> getLatestRequest(int roomID,CoreDbContext dbContext)
+        {
+            var room = await RoomRepo.getInstance(dbContext).findById(roomID);
+            return await ControllRequestRepo.getInstance(dbContext).findByID(room.latestRequest);
+        }
     }
 }
