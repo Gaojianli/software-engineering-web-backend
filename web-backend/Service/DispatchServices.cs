@@ -51,8 +51,12 @@ namespace web_backend.Service
             }
 
         }
-        public static async Task<bool> airAvaiable(int roomID, int? speed)
+        public static async Task<bool> airAvaiable(int roomID, bool curStatus,int? speed)
         {
+            if(curStatus == false){
+                status[roomID] = 0;
+                return true;
+            }
             if(status[roomID] != 0) return true; //此空调正在运行
             
             int cur = countSpeed(HIGH);
