@@ -15,6 +15,14 @@ namespace web_backend.Service
             var requsetDataRepo = ControllRequestRepo.getInstance(dbContext);
             var roomRepo = RoomRepo.getInstance(dbContext);
             var room = await roomRepo.findById(roomID);
+            if (status && (mode == null || targetTemp == null || nowTemp == null || fanSpeed == null))
+            {
+                var previousRequest = await requsetDataRepo.findByID(room.latestRequest);
+                mode ??= previousRequest.mode;
+                targetTemp ??= previousRequest.targetTemp;
+                nowTemp ??= previousRequest.nowTemp;
+                fanSpeed ??= previousRequest.fanSpeed;
+            }
             var request = new ControllRequest
             {
                 roomID = roomID,

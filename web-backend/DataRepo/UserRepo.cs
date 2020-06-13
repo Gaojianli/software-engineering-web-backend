@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace web_backend.DataRepo
 {
-    public class UserRepo : baseRepo<UserRepo>
+    public class UserRepo : BaseRepo<UserRepo>
     {
         public User Login(string username, string password)
         {
