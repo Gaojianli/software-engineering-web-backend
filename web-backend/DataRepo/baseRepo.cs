@@ -6,12 +6,12 @@ using web_backend.Models;
 
 namespace web_backend.DataRepo
 {
-    public class baseRepo
+    public class baseRepo<T> where T : baseRepo<T>, new()
     {
         protected CoreDbContext dbContext;
-        static private baseRepo _instance;
-        protected baseRepo(){}
-        static public T getInstance<T>(CoreDbContext CoredbContext) where T : baseRepo, new()
+        static private T _instance;
+        protected baseRepo() { }
+        static public T getInstance(CoreDbContext CoredbContext)
         {
             if (_instance == null)
                 _instance = new T();

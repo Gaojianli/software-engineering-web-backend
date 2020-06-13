@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using web_backend.Model;
-using Microsoft.AspNetCore.Builder; 
+using Microsoft.AspNetCore.Builder;
 using web_backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace web_backend.DataRepo
 {
-    public class UserRepo:baseRepo
+    public class UserRepo : baseRepo<UserRepo>
     {
-        public User Login(string username,string password)
-        {  
+        public User Login(string username, string password)
+        {
             var toReturn = from User in dbContext.User
                            where User.name == username &&
                            User.password == password
@@ -25,7 +25,7 @@ namespace web_backend.DataRepo
                 return toReturn.Single();
         }
 
-        public async Task<User> Add(string username,string password)
+        public async Task<User> Add(string username, string password)
         {
             var newUser = new User
             {
@@ -37,7 +37,7 @@ namespace web_backend.DataRepo
                 dbContext.User.Add(newUser);
                 await dbContext.SaveChangesAsync();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
