@@ -2,7 +2,6 @@ FROM registry.cn-hangzhou.aliyuncs.com/shinetechchina/dotnet_core_sdk:3.1 AS bui
 WORKDIR /app
 
 COPY . /app
-RUN pwd
 # Copy csproj and restore as distinct layers
 RUN sed -i "s/127.0.0.1/172.18.0.1/g" web-backend/appsettings.json
 # Copy everything else and build
