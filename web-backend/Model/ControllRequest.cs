@@ -16,6 +16,9 @@ namespace web_backend.Model
         public float? nowTemp { get; set; }
 
         public DateTime time { get; set; }
+
+        public int orderId { get; set; }
+
         public enum MODE
         {
             HOT=1,

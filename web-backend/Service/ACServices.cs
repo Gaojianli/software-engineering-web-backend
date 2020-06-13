@@ -12,6 +12,9 @@ namespace web_backend.Service
     {
         public static async Task changeStatusAsync(int roomID, bool status, ControllRequest.MODE? mode, float? targetTemp, int? fanSpeed, float? nowTemp, CoreDbContext dbContext)
         {
+            var requsetDataRepo = ControllRequestRepo.getInstance(dbContext);
+            var roomRepo = RoomRepo.getInstance(dbContext);
+            var room = await roomRepo.findById(roomID);
             var request = new ControllRequest
             {
                 roomID = roomID,
@@ -20,20 +23,24 @@ namespace web_backend.Service
                 targetTemp = targetTemp,
                 fanSpeed = fanSpeed,
                 nowTemp = nowTemp,
-                time = DateTime.Now
+                time = DateTime.Now,
+                orderId = room.orderID
             };
-            var requsetDataRepo = ControllRequestRepo.getInstance(dbContext);
             var result = await requsetDataRepo.Add(request);
-            var roomRepo = RoomRepo.getInstance(dbContext);
-            var room = await roomRepo.findById(result.roomID);
             room.latestRequest = result.id;
             await roomRepo.Update(room);
+
         }
 
-        public static async Task<ControllRequest> getLatestRequest(int roomID,CoreDbContext dbContext)
+        public static async Task<ControllRequest> getLatestRequest(int roomID, CoreDbContext dbContext)
         {
             var room = await RoomRepo.getInstance(dbContext).findById(roomID);
             return await ControllRequestRepo.getInstance(dbContext).findByID(room.latestRequest);
+        }
+        public static async Task<IEnumerable<ControllRequest>> getControllRequest(int roomID, CoreDbContext dbContext)
+        {
+            var room = await RoomRepo.getInstance(dbContext).findById(roomID);
+            return ControllRequestRepo.getInstance(dbContext).Fetch(request => request.orderId == room.orderID);
         }
     }
 }
