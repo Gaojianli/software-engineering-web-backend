@@ -16,17 +16,19 @@
 CREATE DATABASE IF NOT EXISTS `acctrl` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `acctrl`;
 
+
 -- 导出  表 acctrl.order 结构
-CREATE TABLE `order` (
+CREATE TABLE IF NOT EXISTS `order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `roomID` int(10) unsigned NOT NULL,
   `checkInTime` datetime DEFAULT current_timestamp(),
   `checkOutTime` datetime DEFAULT NULL,
   `fee` double unsigned zerofill NOT NULL DEFAULT 0000000000000000000000,
   `finished` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8
--- 数据导出被取消选择。
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
 
 -- 导出  表 acctrl.user 结构
 CREATE TABLE IF NOT EXISTS `user` (
@@ -38,8 +40,47 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `username` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- 数据导出被取消选择。
 
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+-- 导出  表 acctrl.controllrequest 结构
+CREATE TABLE IF NOT EXISTS `controllrequest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roomID` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `mode` tinyint(1) NOT NULL DEFAULT 1,
+  `targetTemp` float DEFAULT 27,
+  `fanSpeed` int(11) DEFAULT NULL,
+  `nowTemp` int(11) DEFAULT NULL,
+  `time` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`),
+  KEY `roomID` (`roomID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 导出  表 acctrl.room 结构
+CREATE TABLE IF NOT EXISTS `room` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderID` int(11) DEFAULT 0,
+  `latestRequest` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`),
+  KEY `FK__controllrequest` (`latestRequest`),
+  CONSTRAINT `FK__controllrequest` FOREIGN KEY (`latestRequest`) REFERENCES `controllrequest` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- 正在导出表  acctrl.room 的数据：~0 rows (大约)
+DELETE FROM `room`;
+/*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` (`id`, `orderID`, `latestRequest`) VALUES
+	(1, 0, NULL),
+	(2, 0, NULL),
+	(3, 0, NULL),
+	(4, 0, NULL),
+	(5, 0, NULL),
+	(6, 0, NULL),
+	(7, 0, NULL),
+	(8, 0, NULL),
+	(9, 0, NULL),
+	(10, 0, NULL);
+
+
+

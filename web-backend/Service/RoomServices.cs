@@ -14,7 +14,9 @@ namespace web_backend.Service
     {
         static public async Task<(bool,string)> checkIn(int roomID,CoreDbContext dbContext)
         {
-            var dataRepo = OrderRepo.getInstance<OrderRepo>(dbContext);
+            if (roomID > 10 || roomID < 0)
+                return (false, "Room not existed");
+            var dataRepo = OrderRepo.getInstance(dbContext);
             if (dataRepo.getUnfinised(roomID) == null)
             {
                 var result = await dataRepo.Add(new Order
@@ -23,7 +25,15 @@ namespace web_backend.Service
                     checkInTime = DateTime.Now
                 });
                 if (result != null)
-                    return (true, "Check in successfully!");
+                {
+                    var roomRepo = RoomRepo.getInstance(dbContext);
+                    var targetRoom = await roomRepo.findById(result.roomID);
+                    targetRoom.orderID = result.id;
+                    if(await roomRepo.Update(targetRoom))
+                        return (true, "Check in successfully!");
+                    else
+                        return (false, "Unknown error");
+                }
                 else
                     return (false, "Unknown error");
             }
@@ -33,7 +43,7 @@ namespace web_backend.Service
 
         static public async Task<(bool, string)> checkOut(int roomID, CoreDbContext dbContext)
         {
-            var dataRepo = OrderRepo.getInstance<OrderRepo>(dbContext);
+            var dataRepo = OrderRepo.getInstance(dbContext);
             var target = dataRepo.getUnfinised(roomID);
             if (target == null)
                 return (false, "Room not checked in.");

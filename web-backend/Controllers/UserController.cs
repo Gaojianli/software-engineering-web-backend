@@ -40,7 +40,7 @@ namespace web_backend.Controllers
 
             if (body.ContainsKey("username") && body.ContainsKey("password"))
             {
-                var userRepo = UserRepo.getInstance<UserRepo>(dbContext);
+                var userRepo = UserRepo.getInstance(dbContext);
                 var result = userRepo.Login(body["username"], body["password"]);
                 if (result == null)
                 {
@@ -78,7 +78,7 @@ namespace web_backend.Controllers
             var body = Request.Form;
             if (body.ContainsKey("username") && body.ContainsKey("password"))
             {
-                var userRepo = baseRepo.getInstance<UserRepo>(dbContext);
+                var userRepo = UserRepo.getInstance(dbContext);
                 var username = body["username"].ToString();
                 var password = body["password"].ToString();
                 if (username.Length >= 20 || password.Length >= 30)

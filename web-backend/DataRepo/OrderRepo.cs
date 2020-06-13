@@ -7,7 +7,7 @@ using web_backend.Model;
 
 namespace web_backend.DataRepo
 {
-    public class OrderRepo : baseRepo
+    public class OrderRepo : baseRepo<OrderRepo>
     {
         public async Task<Order> Add(Order toAdd)
         {
@@ -30,7 +30,7 @@ namespace web_backend.DataRepo
         public async Task<bool> Update(Order order)
         {
             dbContext.Order.Attach(order);
-            return 0< await dbContext.SaveChangesAsync();
+            return 0 < await dbContext.SaveChangesAsync();
         }
     }
 }
