@@ -16,6 +16,10 @@ namespace web_backend.Controllers
     [ApiController]
     public class RoomController : ControllerBase
     {
+
+        [HttpGet("{id}/fee")]
+        public async Task<float> GetFee(int id, [FromServices] CoreDbContext dbContext) => await FeeService.getFee(id, dbContext);
+        
         [HttpGet("{id}/checkin")]
         public async Task<IActionResult> checkIn(int id, [FromServices] CoreDbContext dbContext)
         {
