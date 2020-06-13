@@ -12,11 +12,8 @@ build:
   image: docker:stable
   services:
      - docker:dind
-  
   before_script:
     - docker login --username=${REGISTER_NAME} registry.cn-hangzhou.aliyuncs.com --password ${REGISTER_PASSWORD}
-  only:
-    - master
   stage: build
   script:
     - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest .
