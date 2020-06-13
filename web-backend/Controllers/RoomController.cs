@@ -97,12 +97,24 @@ namespace web_backend.Controllers
                         fanSpeed = Convert.ToInt32(form["fanSpeed"]);
                     if (form.ContainsKey("mode"))
                         mode = (ControllRequest.MODE)Convert.ToInt32(form["mode"]);
-                    await ACServices.changeStatusAsync(id, status, mode, targetTemp, fanSpeed, nowTemp, dbContext);
-                    return Ok(new
+                    
+                    if(await DispatcherService.airAvaiableAsync(id, status, fanSpeed))
                     {
-                        code = 200,
-                        msg = "Accepted."
-                    });
+                        await ACServices.changeStatusAsync(id, status, mode, targetTemp, fanSpeed, nowTemp, dbContext);
+                        return Ok(new
+                        {
+                            code = 200,
+                            msg = "Accepted."
+                        });                        
+                    } else {
+                        Response.StatusCode = 503;
+                        return new JsonResult(new
+                        {
+                            code = 503,
+                            msg = "Plz wait. You are the next one."
+                        });
+                    }
+
                 }
                 catch (Exception e)
                 {
