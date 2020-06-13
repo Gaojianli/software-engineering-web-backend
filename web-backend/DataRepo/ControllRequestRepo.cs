@@ -6,7 +6,7 @@ using web_backend.Model;
 
 namespace web_backend.DataRepo
 {
-    public class ControllRequestRepo:baseRepo<ControllRequestRepo>
+    public class ControllRequestRepo:BaseRepo<ControllRequestRepo>
     {
         public async Task<ControllRequest> Add(ControllRequest toAdd)
         {
