@@ -11,7 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using web_backend.Models;
+using WebApiContrib.Core.Formatter.Csv;
 
 namespace web_backend
 {
@@ -34,6 +36,13 @@ namespace web_backend
             //    options.Cookie.HttpOnly = true;
             //    options.Cookie.IsEssential = true;
             //});
+            var csvFormatterOptions = new CsvFormatterOptions();
+            csvFormatterOptions.CsvDelimiter = ",";
+            services.AddMvc(options =>
+            {
+                options.OutputFormatters.Add(new CsvOutputFormatter(csvFormatterOptions));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("csv", MediaTypeHeaderValue.Parse("text/csv"));
+            });
             services.AddDbContext<CoreDbContext>(
                 options =>options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"))
             );
@@ -48,6 +57,7 @@ namespace web_backend
             }
 
             app.UseRouting();
+
 
             app.UseAuthorization();
 

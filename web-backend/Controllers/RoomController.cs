@@ -64,7 +64,7 @@ namespace web_backend.Controllers
         }
 
         [HttpPost("{id}/ac")]
-        public async Task<IActionResult> controllAC(int id,[FromServices] CoreDbContext dbContext)
+        public async Task<IActionResult> controllAC(int id, [FromServices] CoreDbContext dbContext)
         {
             var form = HttpContext.Request.Form;
             if (OrderRepo.getInstance(dbContext).getUnfinised(id) == null)
@@ -100,7 +100,7 @@ namespace web_backend.Controllers
                         msg = "Accepted."
                     });
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Response.StatusCode = 500;
                     return new JsonResult(new
@@ -122,16 +122,22 @@ namespace web_backend.Controllers
         }
 
         [HttpGet("{id}/ac")]
-        public async Task<IActionResult> getACInfo(int id,[FromServices] CoreDbContext dbContext)
+        public async Task<IActionResult> getACInfo(int id, [FromServices] CoreDbContext dbContext)
         {
             return Ok(await ACServices.getLatestRequest(id, dbContext));
         }
 
         [HttpGet("{id}/ac/export")]
-        public async Task<IActionResult> exportLogs(int id,[FromServices] CoreDbContext dbContext)
+        [Produces("text/csv")]
+        public async Task<IActionResult> exportLogs(int id, [FromServices] CoreDbContext dbContext) => Ok((await ACServices.getControllRequest(id, dbContext)).Select(e => new
         {
-            // csv later..
-            return new JsonResult(await ACServices.getControllRequest(id, dbContext));
-        }
+            roomID = e.roomID,
+            status = e.status,
+            mode = e.mode.ToString(),
+            targetTemp = e.targetTemp,
+            nowTemp = e.nowTemp,
+            fanSpeed = e.fanSpeed,
+            time = e.time
+        }).ToList());
     }
 }
