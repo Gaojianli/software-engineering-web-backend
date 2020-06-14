@@ -107,6 +107,7 @@ namespace web_backend.Controllers
                             msg = "Accepted."
                         });                        
                     } else {
+                        await ACServices.changeStatusAsync(id, false, mode, targetTemp, fanSpeed, nowTemp, dbContext);
                         Response.StatusCode = 503;
                         return new JsonResult(new
                         {
