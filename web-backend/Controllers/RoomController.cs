@@ -158,7 +158,7 @@ namespace web_backend.Controllers
         public async Task<IActionResult> exportLogs(int id, [FromServices] CoreDbContext dbContext) => Ok((await ACServices.getControllRequest(id, dbContext)).Select(e => new
         {
             roomID = e.roomID,
-            status = e.status,
+            status = e.status ? "ON" : "OFF",
             mode = e.mode.ToString(),
             targetTemp = e.targetTemp,
             nowTemp = e.nowTemp,
