@@ -50,6 +50,7 @@ namespace web_backend.Service
             else
             {
                 target.checkOutTime = DateTime.Now;
+                await ACServices.changeStatusAsync(target.id, false, null, null, null, null, dbContext);
                 target.finished = true;
                 if (await dataRepo.Update(target))
                     return (true, "check out successfully");
