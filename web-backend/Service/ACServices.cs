@@ -37,7 +37,6 @@ namespace web_backend.Service
             var result = await requsetDataRepo.Add(request);
             room.latestRequest = result.id;
             await roomRepo.Update(room);
-
         }
 
         public static async Task<ControllRequest> getLatestRequest(int roomID, CoreDbContext dbContext)
