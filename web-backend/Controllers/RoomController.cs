@@ -56,6 +56,7 @@ namespace web_backend.Controllers
             var (status, msg) = await RoomServices.checkOut(id, dbContext);
             if (status)
             {
+                await DispatcherService.airAvaiableAsync(id, false, 0);
                 return Ok(new
                 {
                     code = 200,
@@ -158,7 +159,7 @@ namespace web_backend.Controllers
         public async Task<IActionResult> exportLogs(int id, [FromServices] CoreDbContext dbContext) => Ok((await ACServices.getControllRequest(id, dbContext)).Select(e => new
         {
             roomID = e.roomID,
-            status = e.status ? "ON" : "OFF",
+            status = e.status,
             mode = e.mode.ToString(),
             targetTemp = e.targetTemp,
             nowTemp = e.nowTemp,
