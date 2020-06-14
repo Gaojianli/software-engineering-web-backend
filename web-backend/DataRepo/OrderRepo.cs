@@ -13,7 +13,7 @@ namespace web_backend.DataRepo
         {
             dbContext.Order.Add(toAdd);
             await dbContext.SaveChangesAsync();
-            return await dbContext.Order.FindAsync(toAdd.id);
+            return toAdd;
         }
 
         public Order getUnfinised(int roomId)

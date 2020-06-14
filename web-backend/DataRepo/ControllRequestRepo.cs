@@ -13,7 +13,7 @@ namespace web_backend.DataRepo
         {
             dbContext.ControllRequest.Add(toAdd);
             await dbContext.SaveChangesAsync();
-            return await dbContext.ControllRequest.FindAsync(toAdd.id);
+            return toAdd;
         }
 
         public async Task<ControllRequest> findByID(int id) => await dbContext.ControllRequest.FindAsync(id);

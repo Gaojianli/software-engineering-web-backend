@@ -3,11 +3,11 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost/web-backend",
+      "applicationUrl": "http://localhost:65530/",
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost:61355",
+      "applicationUrl": "http://0.0.0.0:61355",
       "sslPort": 0
     }
   },
@@ -22,13 +22,13 @@
       }
     },
     "web_backend": {
-      "commandName": "IISExpress",
+      "commandName": "Project",
       "launchUrl": "api/helloworld",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "use64Bit": true,
-      "applicationUrl": "http://localhost:5002"
+      "applicationUrl": "http://0.0.0.0:18000"
     }
   }
 }
