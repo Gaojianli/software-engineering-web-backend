@@ -9,6 +9,7 @@ using web_backend.DataRepo;
 using web_backend.Model;
 using web_backend.Models;
 using web_backend.Service;
+using TypeMerger;
 
 namespace web_backend.Controllers
 {
@@ -16,10 +17,16 @@ namespace web_backend.Controllers
     [ApiController]
     public class RoomController : ControllerBase
     {
+        [HttpGet("{id}")]
+        public async Task<IActionResult> getRoomInfo(int id, [FromServices] CoreDbContext dbContext)
+        {
+            bool isCheckedIn = OrderRepo.getInstance(dbContext).getUnfinised(id) != null;
+            return new JsonResult(TypeMerger.TypeMerger.Merge(await RoomRepo.getInstance(dbContext).findById(id), new { isCheckedIn }));
+        }
 
         [HttpGet("{id}/fee")]
         public async Task<float> GetFee(int id, [FromServices] CoreDbContext dbContext) => await FeeService.getFee(id, dbContext);
-        
+
         [HttpGet("{id}/checkin")]
         public async Task<IActionResult> checkIn(int id, [FromServices] CoreDbContext dbContext)
         {
@@ -97,16 +104,18 @@ namespace web_backend.Controllers
                         fanSpeed = Convert.ToInt32(form["fanSpeed"]);
                     if (form.ContainsKey("mode"))
                         mode = (ControllRequest.MODE)Convert.ToInt32(form["mode"]);
-                    
-                    if(await DispatcherService.airAvaiableAsync(id, status, fanSpeed))
+
+                    if (await DispatcherService.airAvaiableAsync(id, status, fanSpeed))
                     {
                         await ACServices.changeStatusAsync(id, status, mode, targetTemp, fanSpeed, nowTemp, dbContext);
                         return Ok(new
                         {
                             code = 200,
                             msg = "Accepted."
-                        });                        
-                    } else {
+                        });
+                    }
+                    else
+                    {
                         await ACServices.changeStatusAsync(id, false, mode, targetTemp, 0, nowTemp, dbContext);
                         Response.StatusCode = 503;
                         return new JsonResult(new
