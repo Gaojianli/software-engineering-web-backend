@@ -89,6 +89,7 @@ namespace web_backend.Service
                         status[roomID] = LOW;
                         return true;
                     }
+                    status[roomID] = 0;
                     return false;
                 }
                 catch
