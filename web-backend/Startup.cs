@@ -29,6 +29,12 @@ namespace web_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("Development", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddControllers();
             //services.AddSession(options =>
             //{
@@ -58,6 +64,7 @@ namespace web_backend
 
             app.UseRouting();
 
+            app.UseCors("Development");
 
             app.UseAuthorization();
 
