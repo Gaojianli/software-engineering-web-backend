@@ -34,7 +34,7 @@ CREATE TABLE `ControllRequest` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `roomID` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
-  `mode` tinyint(1) DEFAULT 1,
+  `mode` tinyint(2) DEFAULT 1,
   `targetTemp` float DEFAULT 27,
   `fanSpeed` int(11) DEFAULT NULL,
   `nowTemp` int(11) DEFAULT NULL,
