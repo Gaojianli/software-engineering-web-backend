@@ -18,9 +18,9 @@ namespace web_backend.Service
                 if (cur.status == false) continue;
                 if (System.Math.Abs((float)(cur.targetTemp - cur.nowTemp)) < 0.01) //温度稳定
                     fee += (float)0.5;
-                else if (cur.fanSpeed <= 200) fee += (float)1;
+                else if (cur.fanSpeed <= 200) fee += 1/3;
                 else if (cur.fanSpeed <= 400) fee += (float)0.5;
-                else fee += (float)0.3333333;
+                else fee += 1;
             }
             return fee;
         }
