@@ -37,7 +37,7 @@ CREATE TABLE `ControllRequest` (
   `mode` tinyint(2) DEFAULT 1,
   `targetTemp` float DEFAULT 27,
   `fanSpeed` int(11) DEFAULT NULL,
-  `nowTemp` int(11) DEFAULT NULL,
+  `nowTemp` float(11) DEFAULT NULL,
   `time` datetime NOT NULL DEFAULT current_timestamp(),
   `orderId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
