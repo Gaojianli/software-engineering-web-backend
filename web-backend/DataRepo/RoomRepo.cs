@@ -14,6 +14,6 @@ namespace web_backend.DataRepo
             return 0 < await dbContext.SaveChangesAsync();
         }
 
-        public async Task<Room> findById(int id) => await dbContext.Room.FindAsync(id);
+        public Room findById(int id) => dbContext.Room.Find(id);
     }
 }

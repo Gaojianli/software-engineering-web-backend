@@ -18,14 +18,14 @@ namespace web_backend.Controllers
     public class RoomController : ControllerBase
     {
         [HttpGet("{id}")]
-        public async Task<IActionResult> getRoomInfo(int id, [FromServices] CoreDbContext dbContext)
+        public IActionResult getRoomInfo(int id, [FromServices] CoreDbContext dbContext)
         {
             bool isCheckedIn = OrderRepo.getInstance(dbContext).getUnfinised(id) != null;
-            return new JsonResult(TypeMerger.TypeMerger.Merge(await RoomRepo.getInstance(dbContext).findById(id), new { isCheckedIn }));
+            return new JsonResult(TypeMerger.TypeMerger.Merge(dbContext.Room.Find(id), new { isCheckedIn }));
         }
 
         [HttpGet("{id}/fee")]
-        public async Task<float> GetFee(int id, [FromServices] CoreDbContext dbContext) => await FeeService.getFee(id, dbContext);
+        public float GetFee(int id, [FromServices] CoreDbContext dbContext) => FeeService.getFee(id, dbContext);
 
         [HttpGet("{id}/checkin")]
         public async Task<IActionResult> checkIn(int id, [FromServices] CoreDbContext dbContext)
@@ -156,7 +156,7 @@ namespace web_backend.Controllers
 
         [HttpGet("{id}/ac/export")]
         [Produces("text/csv")]
-        public async Task<IActionResult> exportLogs(int id, [FromServices] CoreDbContext dbContext) => Ok((await ACServices.getControllRequest(id, dbContext)).Select(e => new
+        public IActionResult exportLogs(int id, [FromServices] CoreDbContext dbContext) => Ok((ACServices.getControllRequest(id, dbContext)).Select(e => new
         {
             roomID = e.roomID,
             status = e.status ? "ON" : "OFF",

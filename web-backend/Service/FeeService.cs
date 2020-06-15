@@ -8,12 +8,12 @@ namespace web_backend.Service
 {
     public static class FeeService
     {
-        public static async Task<float> getFee(int roomID, CoreDbContext dbContext)
+        public static float getFee(int roomID, CoreDbContext dbContext)
         {
-            var requests = await ACServices.getControllRequest(roomID, dbContext);
+            var requests = ACServices.getControllRequest(roomID, dbContext);
             requests.OrderBy(s => s.time);
             float fee = 0;
-            foreach(var cur in requests)
+            foreach (var cur in requests)
             {
                 if (cur.status == false) continue;
                 if (System.Math.Abs((float)(cur.targetTemp - cur.nowTemp)) < 0.01) //温度稳定

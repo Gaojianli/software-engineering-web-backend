@@ -27,7 +27,7 @@ namespace web_backend.Service
                 if (result != null)
                 {
                     var roomRepo = RoomRepo.getInstance(dbContext);
-                    var targetRoom = await roomRepo.findById(result.roomID);
+                    var targetRoom = roomRepo.findById(result.roomID);
                     targetRoom.orderID = result.id;
                     if(await roomRepo.Update(targetRoom))
                         return (true, "Check in successfully!");

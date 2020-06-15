@@ -14,7 +14,7 @@ namespace web_backend.Service
         {
             var requsetDataRepo = ControllRequestRepo.getInstance(dbContext);
             var roomRepo = RoomRepo.getInstance(dbContext);
-            var room = await roomRepo.findById(roomID);
+            var room = dbContext.Room.Find(roomID);
             if (status && (mode == null || targetTemp == null || nowTemp == null || fanSpeed == null))
             {
                 var previousRequest = await requsetDataRepo.findByID(room.latestRequest);
@@ -42,12 +42,11 @@ namespace web_backend.Service
 
         public static async Task<ControllRequest> getLatestRequest(int roomID, CoreDbContext dbContext)
         {
-            var room = await RoomRepo.getInstance(dbContext).findById(roomID);
-            return await ControllRequestRepo.getInstance(dbContext).findByID(room.latestRequest);
+            return await dbContext.ControllRequest.FindAsync((dbContext.Room.Find(roomID).latestRequest));
         }
-        public static async Task<IEnumerable<ControllRequest>> getControllRequest(int roomID, CoreDbContext dbContext)
+        public static IEnumerable<ControllRequest> getControllRequest(int roomID, CoreDbContext dbContext)
         {
-            var room = await RoomRepo.getInstance(dbContext).findById(roomID);
+            var room = dbContext.Room.Find(roomID);
             return ControllRequestRepo.getInstance(dbContext).Fetch(request => request.orderId == room.orderID);
         }
     }
