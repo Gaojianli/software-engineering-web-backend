@@ -15,7 +15,7 @@ namespace web_backend.DataRepo
             return toAdd;
         }
 
-        public async Task<ControllRequest> findByID(int id) => await dbContext.ControllRequest.FindAsync(id);
+        public ControllRequest findByID(int id) => dbContext.ControllRequest.Find(id);
 
         public IEnumerable<ControllRequest> Fetch(Expression<Func<ControllRequest, bool>> predicate) => dbContext.ControllRequest.Where(predicate).ToList();
     }

@@ -29,7 +29,7 @@ namespace web_backend.Service
                     var roomRepo = RoomRepo.getInstance(dbContext);
                     var targetRoom = roomRepo.findById(result.roomID);
                     targetRoom.orderID = result.id;
-                    if(await roomRepo.Update(targetRoom))
+                    if(roomRepo.Update(targetRoom))
                         return (true, "Check in successfully!");
                     else
                         return (false, "Unknown error");
@@ -52,7 +52,7 @@ namespace web_backend.Service
                 target.checkOutTime = DateTime.Now;
                 await ACServices.changeStatusAsync(target.roomID, false, null, null, null, null, dbContext);
                 target.finished = true;
-                if (await dataRepo.Update(target))
+                if (dataRepo.Update(target))
                     return (true, "check out successfully");
                 else
                     return (false, "Unknown error");

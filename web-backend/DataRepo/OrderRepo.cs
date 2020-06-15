@@ -27,10 +27,10 @@ namespace web_backend.DataRepo
                 return toReturn.Single();
         }
 
-        public async Task<bool> Update(Order order)
+        public bool Update(Order order)
         {
             dbContext.Order.Attach(order);
-            return 0 < await dbContext.SaveChangesAsync();
+            return 0 < dbContext.SaveChanges();
         }
     }
 }

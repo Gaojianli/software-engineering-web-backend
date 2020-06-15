@@ -17,7 +17,7 @@ namespace web_backend.Service
             var room = dbContext.Room.Find(roomID);
             if (status && (mode == null || targetTemp == null || nowTemp == null || fanSpeed == null))
             {
-                var previousRequest = await requsetDataRepo.findByID(room.latestRequest);
+                var previousRequest = requsetDataRepo.findByID(room.latestRequest);
                 mode ??= previousRequest.mode;
                 targetTemp ??= previousRequest.targetTemp;
                 nowTemp ??= previousRequest.nowTemp;
@@ -37,7 +37,7 @@ namespace web_backend.Service
             var result = requsetDataRepo.Add(request);
             await dbContext.SaveChangesAsync();
             room.latestRequest = result.id;
-            await roomRepo.Update(room);
+            roomRepo.Update(room);
         }
 
         public static async Task<ControllRequest> getLatestRequest(int roomID, CoreDbContext dbContext)

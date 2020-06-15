@@ -8,10 +8,10 @@ namespace web_backend.DataRepo
 {
     public class RoomRepo : BaseRepo<RoomRepo>
     {
-        public async Task<bool> Update(Room room)
+        public bool Update(Room room)
         {
             dbContext.Room.Attach(room);
-            return 0 < await dbContext.SaveChangesAsync();
+            return 0 < dbContext.SaveChanges();
         }
 
         public Room findById(int id) => dbContext.Room.Find(id);
