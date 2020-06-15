@@ -21,7 +21,7 @@ namespace web_backend.Service
                 mode ??= previousRequest.mode;
                 targetTemp ??= previousRequest.targetTemp;
                 nowTemp ??= previousRequest.nowTemp;
-                fanSpeed ??= previousRequest.fanSpeed;
+                fanSpeed ??= status ? previousRequest.fanSpeed : 0;
             }
             var request = new ControllRequest
             {

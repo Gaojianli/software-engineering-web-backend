@@ -79,6 +79,7 @@ namespace web_backend.Controllers
         public async Task<IActionResult> controllAC(int id, [FromServices] CoreDbContext dbContext)
         {
             var form = HttpContext.Request.Form;
+            Console.WriteLine($"{id}");
             if (OrderRepo.getInstance(dbContext).getUnfinised(id) == null)
             {
                 Response.StatusCode = 406;

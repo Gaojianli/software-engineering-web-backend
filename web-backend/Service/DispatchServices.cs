@@ -21,8 +21,9 @@ namespace web_backend.Service
         static int countSpeed(int speed)
         {
             int cur = 0;
-            for(int i = 0; i < AIRNUM; i++) {
-                if(status[i] == speed) cur += 1;
+            for (int i = 0; i < AIRNUM; i++)
+            {
+                if (status[i] == speed) cur += 1;
             }
             return cur;
         }
@@ -30,10 +31,12 @@ namespace web_backend.Service
         static void turnoff(int speed)
         {
             // turen off low speed
-            if(speed >= MIDDLE)
+            if (speed >= MIDDLE)
             {
-                for(int i = 0; i < AIRNUM; i++) {
-                    if(status[i] == LOW) {
+                for (int i = 0; i < AIRNUM; i++)
+                {
+                    if (status[i] == LOW)
+                    {
                         status[i] = 0;
                         return;
                     }
@@ -41,10 +44,12 @@ namespace web_backend.Service
             }
 
             //turn off midlle speed
-            if(speed == HIGH)
+            if (speed == HIGH)
             {
-                for(int i = 0; i < AIRNUM; i++) {
-                    if(status[i] == MIDDLE) {
+                for (int i = 0; i < AIRNUM; i++)
+                {
+                    if (status[i] == MIDDLE)
+                    {
                         status[i] = 0;
                         return;
                     }
@@ -64,7 +69,11 @@ namespace web_backend.Service
                         status[roomID] = 0;
                         return true;
                     }
-                    if (status[roomID] != 0) return true; //此空调正在运行
+                    if (status[roomID] != 0)
+                    {
+                        status[roomID] = speed ?? 0;
+                        return true; //此空调正在运行
+                    }
 
                     int cur = countSpeed(HIGH);
                     if (cur >= AIRLIMIT) return false; //high = AIRLIMIT
@@ -74,9 +83,9 @@ namespace web_backend.Service
                         status[roomID] = HIGH;
                         return true;
                     }
+                    cur += countSpeed(MIDDLE);
                     if (speed == MIDDLE)
                     {
-                        cur += countSpeed(MIDDLE);
                         if (cur >= AIRLIMIT) return false; //high + middle = AIRLIMIT
                         turnoff(MIDDLE); // not full, turn off lower one
                         status[roomID] = MIDDLE;
