@@ -34,7 +34,8 @@ namespace web_backend.Service
                 time = DateTime.Now,
                 orderId = room.orderID
             };
-            var result = await requsetDataRepo.Add(request);
+            var result = requsetDataRepo.Add(request);
+            await dbContext.SaveChangesAsync();
             room.latestRequest = result.id;
             await roomRepo.Update(room);
         }

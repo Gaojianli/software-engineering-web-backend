@@ -15,6 +15,8 @@ namespace web_backend.DataRepo
         {
             if (_instance == null)
                 _instance = new T();
+            if (_instance.dbContext != null)
+                _instance.dbContext.Dispose();
             _instance.dbContext = CoredbContext;
             return _instance;
         }

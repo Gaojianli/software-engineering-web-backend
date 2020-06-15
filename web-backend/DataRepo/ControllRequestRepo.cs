@@ -9,10 +9,9 @@ namespace web_backend.DataRepo
 {
     public class ControllRequestRepo:BaseRepo<ControllRequestRepo>
     {
-        public async Task<ControllRequest> Add(ControllRequest toAdd)
+        public ControllRequest Add(ControllRequest toAdd)
         {
             dbContext.ControllRequest.Add(toAdd);
-            await dbContext.SaveChangesAsync();
             return toAdd;
         }
 
